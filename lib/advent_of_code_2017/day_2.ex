@@ -13,6 +13,27 @@ defmodule AdventOfCode2017.Day2 do
     end)
   end
 
+  def part_2(input) do
+    Enum.reduce(input, 0, fn row, accum ->
+      accum + even_division(row)
+    end)
+  end
+
+  def even_division([head|tail]=row) do
+    {i, j} =
+      Stream.flat_map(row, fn i ->
+        Stream.flat_map(List.delete(row, i), fn j ->
+          [{i, j}]
+        end)
+      end)
+      |> Enum.find(fn {i, j} ->
+           Integer.mod(i, j) == 0
+         end)
+      |> IO.inspect()
+
+    Integer.floor_div(i, j)
+  end
+
   def difference([head|_]=row) do
     {min, max} = Enum.reduce(row, {head, head}, fn cell, {min, max} ->
       cond do
