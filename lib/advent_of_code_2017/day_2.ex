@@ -7,6 +7,13 @@ defmodule AdventOfCode2017.Day2 do
     |> part_1()
   end
 
+
+  def solve_part_2 do
+    @input_path
+    |> parse()
+    |> part_2()
+  end
+
   def part_1(input) do
     Enum.reduce(input, 0, fn row, accum  ->
       accum + difference(row)
@@ -19,7 +26,7 @@ defmodule AdventOfCode2017.Day2 do
     end)
   end
 
-  def even_division([head|tail]=row) do
+  def even_division(row) do
     {i, j} =
       Stream.flat_map(row, fn i ->
         Stream.flat_map(List.delete(row, i), fn j ->
@@ -29,7 +36,6 @@ defmodule AdventOfCode2017.Day2 do
       |> Enum.find(fn {i, j} ->
            Integer.mod(i, j) == 0
          end)
-      |> IO.inspect()
 
     Integer.floor_div(i, j)
   end
