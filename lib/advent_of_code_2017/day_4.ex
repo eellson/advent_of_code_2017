@@ -12,6 +12,19 @@ defmodule AdventOfCode2017.Day4 do
     |> Enum.count(&(Enum.uniq(&1) == &1))
   end
 
+  def part_2(input) do
+    input
+    |> Enum.map(fn line ->
+      line
+      |> Enum.map(fn word ->
+        word
+        |> String.to_charlist()
+        |> Enum.sort()
+      end)
+    end)
+    |> Enum.count(&(Enum.uniq(&1) == &1))
+  end
+
   def parse(path) do
     path
     |> File.stream!()

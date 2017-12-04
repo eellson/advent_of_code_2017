@@ -13,7 +13,7 @@ defmodule AdventOfCode2017.Day4Test do
   # aa bb cc dd aaa is valid - aa and aaa count as different words.
   # The system's full passphrase list is available as your puzzle input. How many passphrases are valid?
 
-  test "part_1/1 returns count of valid passwords" do
+  test "part_1/1 returns count of valid passwords by duplicates" do
     input = [
       ~w(aa bb cc dd ee),
       ~w(aa bb cc dd aa),
@@ -21,5 +21,26 @@ defmodule AdventOfCode2017.Day4Test do
     ]
     assert Day4.part_1(input) == 2
   end
-end
 
+  # For added security, yet another system policy has been put in place. Now, a valid passphrase must contain no two words that are anagrams of each other - that is, a passphrase is invalid if any word's letters can be rearranged to form any other word in the passphrase.
+
+ # For example:
+
+ # abcde fghij is a valid passphrase.
+ # abcde xyz ecdab is not valid - the letters from the third word can be rearranged to form the first word.
+ # a ab abc abd abf abj is a valid passphrase, because all letters need to be used when forming another word.
+ # iiii oiii ooii oooi oooo is valid.
+ # oiii ioii iioi iiio is not valid - any of these words can be rearranged to form any other word.
+ # Under this new system policy, how many passphrases are valid?
+
+ test "part_2/1 returns count of valid passwords by anagrams" do
+   input = [
+     ~w(abcde fghij),
+     ~w(abcde xyz ecdab),
+     ~w(a ab abc abd abf abj),
+     ~w(iiii oiii ooii oooi oooo),
+     ~w(oiii ioii iioi iiio)
+   ]
+   assert Day4.part_2(input) == 3
+ end
+end
