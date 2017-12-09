@@ -7,6 +7,12 @@ defmodule AdventOfCode2017.Day4 do
     |> part_1()
   end
 
+  def solve_part_2 do
+    @input_path
+    |> parse()
+    |> part_2()
+  end
+
   def part_1(input) do
     input
     |> Enum.count(&(Enum.uniq(&1) == &1))
