@@ -7,14 +7,39 @@ defmodule AdventOfCode2017.Day5 do
     |> part_1()
   end
 
+  def solve_part_2 do
+    @input_path
+    |> parse_to_map()
+    |> part_2()
+  end
+
   def part_1(input) do
     do_part_1(input, 0, 0)
+  end
+
+  def part_2(input) do
+    do_part_2(input, 0, 0)
   end
 
   def do_part_1(input, current, steps) do
     rel = Enum.at(input, current, :exit)
 
     update_or_exit(input, current, rel, steps)
+  end
+
+  def do_part_2(_input, nil, steps), do: steps
+  def do_part_2(input, current, steps) do
+    {rel, new_input} = Map.get_and_update(input, current, fn
+      nil -> {nil,  steps}
+      rel when rel >= 3 -> {rel, rel - 1}
+      rel -> {rel, rel + 1}
+    end)
+    continue_or_exit(new_input, current, rel, steps)
+  end
+
+  def continue_or_exit(_input, _current, nil, steps), do: steps
+  def continue_or_exit(input, current, rel, steps) do
+    do_part_2(input, current + rel, steps + 1)
   end
 
   def update_or_exit(_input, _current, :exit, steps), do: steps
@@ -32,5 +57,18 @@ defmodule AdventOfCode2017.Day5 do
       |> String.to_integer()
     end)
     |> Enum.to_list()
+  end
+
+  def parse_to_map(file_path) do
+    file_path
+    |> File.stream!()
+    |> Stream.map(fn line ->
+      line
+      |> String.trim()
+      |> String.to_integer()
+    end)
+    |> Stream.with_index()
+    |> Enum.to_list()
+    |> Map.new(fn {n, i} -> {i, n} end)
   end
 end
