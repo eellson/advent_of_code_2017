@@ -7,9 +7,24 @@ defmodule AdventOfCode2017.Day6 do
     |> part_1()
   end
 
+  def solve_part_2 do
+    @input_path
+    |> parse()
+    |> part_2()
+  end
+
   def part_1(input) do
     input
     |> do_part_1(0, MapSet.new([]))
+  end
+
+  def part_2(input) do
+    {new_input, _} =
+      input
+      |> pick_and_redistribute(0, MapSet.new([]))
+
+    {_, steps} = pick_and_redistribute(new_input, 0, MapSet.new([]))
+    steps - 1
   end
 
   def do_part_1(input, steps, seen) do
@@ -24,7 +39,7 @@ defmodule AdventOfCode2017.Day6 do
 
     cond do
       MapSet.member?(seen, new_arrangement) ->
-        steps + 1
+        {new_arrangement, steps + 1}
       true ->
         pick_and_redistribute(new_arrangement, steps + 1, MapSet.put(seen, new_arrangement))
     end
